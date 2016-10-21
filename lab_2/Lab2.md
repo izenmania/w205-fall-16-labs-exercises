@@ -46,7 +46,7 @@ We're going to begin by making a persistent disk that we can attach to EC2 insta
  
     ii. Before you launch your instance, check to make sure your security group looks like the following
 
-![](w205_lab2_img1)
+![](w205_lab2_img1.png)
 
  iii. Name the security group "Hadoop Cluster UCB"
  
@@ -54,7 +54,7 @@ We're going to begin by making a persistent disk that we can attach to EC2 insta
 
 2. Click through to the Elastic Block Store Page shown below
 
- ![](w205_lab2_img2)
+ ![](w205_lab2_img2.png)
 
 3. Choose "Create Volume" as shown below
 
@@ -62,7 +62,7 @@ We're going to begin by making a persistent disk that we can attach to EC2 insta
  
  b. Create at volume of at least 30GB. 100GB or more is recommended for the course.
 
- ![](w205_lab2_img3)
+ ![](w205_lab2_img3.png)
 
 4. Check the box next to your new volume. From the Actions menu, choose "Attach Volume" and attach the volume to your running instance.
 
