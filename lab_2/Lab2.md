@@ -73,15 +73,15 @@ filesystem.
 
 At the prompt, type `fdisk -l` You should see a reading like this.
 
-  ```Disk /dev/xvdb: 32.2 GB, 32204390400 bytes
+  ```
+  Disk /dev/xvdb: 32.2 GB, 32204390400 bytes
   255 heads, 63 sectors/track, 3915 cylinders
   Units = cylinders of 16065 * 512 = 8225280 bytes
   Sector size (logical/physical): 512 bytes / 512 bytes
   I/O size (minimum/optimal): 512 bytes / 512 bytes
   Disk identifier: 0x00000000
-  ```
-
-  ```Disk /dev/xvdf: 107.4 GB, 107374182400 bytes
+  
+  Disk /dev/xvdf: 107.4 GB, 107374182400 bytes
   255 heads, 63 sectors/track, 13054 cylinders
   Units = cylinders of 16065 * 512 = 8225280 bytes
   Sector size (logical/physical): 512 bytes / 512 bytes
