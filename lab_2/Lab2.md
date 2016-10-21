@@ -79,13 +79,15 @@ At the prompt, type `fdisk -l` You should see a reading like this.
   Sector size (logical/physical): 512 bytes / 512 bytes
   I/O size (minimum/optimal): 512 bytes / 512 bytes
   Disk identifier: 0x00000000
+  ```
 
-  Disk /dev/xvdf: 107.4 GB, 107374182400 bytes
+  ```Disk /dev/xvdf: 107.4 GB, 107374182400 bytes
   255 heads, 63 sectors/track, 13054 cylinders
   Units = cylinders of 16065 * 512 = 8225280 bytes
   Sector size (logical/physical): 512 bytes / 512 bytes
   I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disk identifier: 0x00000000```
+  Disk identifier: 0x00000000
+  ```
 
 Look for the disk path that has a size matching the EBS volume you created. Note that your EBS
 volume is rarely at `/dev/xvdb`, as that is default storage provided to the instance by Amazon. In
