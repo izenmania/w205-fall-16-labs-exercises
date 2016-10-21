@@ -1,207 +1,157 @@
-MIDS W205
+#MIDS W205
 
-Lab#              5        LabTitle          WorkingwithRelationalDatabases
+| **Lab #** | 5 | **Lab Title** | Working with Relational Databases |
+|---|---|---|---|
+| **Related Module(s)** | 5 | **Goal** | Get you introduced to a RDBMS (PostgreSQL) |
+| **Last Updated** | 2/14/16 | **Expected duration** | 40minutes |
 
-RelatedModule(s)  5        Goal              GetyouintroducedtoaRDBMS(PostgreSQL)
-LastUpdated       2/14/16  Expectedduration  40minutes
 
+##Introduction, Resources
 
+While our initial investigations have dealt with Hive and SparkSQL, often as a Data Scientist, you will encounter relational databases like PostgreSQL. In this lab, we will learn about the following:
 
-Introduction,Resources
+1. How to create a database in PostgreSQL
+2. How to load data into PostgreSQL
+3. How to run queries on PostgreSQL
+4. How queries are transformed into plans for DAGs in PostgreSQL
 
-Whileourinitialinvestigations have dealt with Hive and SparkSQL, often as a Data Scientist, you
-will encounter relational databases like PostgreSQL. Inthislab,wewilllearnaboutthefollowing:
+| Resource | What |
+|---|---|
+| http://www.postgresql.org/docs/9.5/static/index.html | PostgreSQL Documentation |
+| http://www.postgresql.org/docs/9.5/static/sql.html | The SQL Language |
 
-     1. HowtocreateadatabaseinPostgreSQL
-     2. HowtoloaddataintoPostgreSQL
-     3. HowtorunqueriesonPostgreSQL
-     4. HowqueriesaretransformedintoplansforDAGsinPostgreSQL
 
-Resource                                          What
-                                                  PostgreSQLDocumentation
-http://www.postgresql.org/docs/9.5/static/index.  TheSQLLanguage
-html
-http://www.postgresql.org/docs/9.5/static/sql.ht
-ml
+##Step-1. Setup the environment
 
+WWe need to setup an EC2 instance and make sure that PostgreSQL is up and running. Do the following:
 
+1. Launch an instance of UCB W205 Spring 2016
 
+  a. Attach your EBS volume from Lab 2. Note that PostgreSQL should be installed after you finish step 3.4 of Lab 2
+  
+  b. Check whether PostgreSQL is up and running: `ps auxwww | grep postgres`
+  
+  c. If not, change your current path to /data `cd /data` and start Postgres `/data/start_postgres.sh`
 
-Step-1.Setuptheenvironment
+2. Getting the Data:
+  
+  a. We need some data in order to create a database, schema and, ultimately, query. The data we’ll consider is a toy dataset DVD rental.
+  
+  b. Navigate to the /data directory on your AWS instance and download the Pagila data as follows:
 
-We need to setup an EC2 instance and make sure that PostgreSQL is up and running. Do the
-following:
+  ```
+  wget -O pagila.zip http://pgfoundry.org/frs/download.php/1719/pagila-0.10.1.zip
+  ```
 
-1. LaunchaninstanceofUCBW205Spring2016
+  c. Unzip the data `unzip pagila.zip`
 
-a. Attach your EBS volume from Lab 2. Note that PostgreSQL should be installed
-    afteryoufinishstep3.4ofLab2
+3. Connecting to the PostgreSQL instance, creating a database, and importing the data:
 
-b. CheckwhetherPostgreSQLisupandrunning:
+  a. Log into postgres as the postgres user: `psql –U postgres`
+  
+  b. Create the database: `create database dvdrental;`
+  
+  c. Connect to the database using `\c dvdrental`
 
-ps auxwww | grep postgres
-    c. Ifnot,changeyourcurrentpathto/data:
+  d. Load the data using the `\i` command. `\i` runs `.sql` scripts in Postgres.
 
-                i. cd /data
-                  ii. StartPostgres:/data/start_postgres.sh
-2. GettingtheData:         
-    
+  ```
+  \i pagila-0.10.1/pagila-schema.sql
+  \i pagila-0.10.1/pagila-insert-data.sql
+  \i pagila-0.10.1/pagila-data.sql
+  ```
 
-                                                                                   1
-             a. We need some data in order to create a database, schema and, ultimately,
-                  query.Thedatawe'llconsiderisatoydatasetDVDrental.
+At this point the data is loaded. Examine the database schema using the `\dt` command. Examine the schema of a table using the `\d <table name>` command.
 
-             b. Navigatetothe/datadirectoryonyourAWSinstanceanddownloadthePagila
-                  dataasfollows:
+> Question 1: What is the output of \dt?
 
-                  wget -O pagila.zip
-                  http://pgfoundry.org/frs/download.php/1719/pagila-
-                  0.10.1.zip
+> Question 2: What is the schema for the customer table?
 
-             a. Unzipthedata
 
-                  unzip pagila.zip
+##Step 2. Running Queries and Understanding EXPLAIN plans
 
-    3. ConnectingtothePostgreSQLinstance,creatingadatabase,andimportingthedata:
+We want to understand not only what queries we can issue against data, but also how that query maps to an execution plan. For each of the following sections, run the queries provided, and generate their explain plans using: `EXPLAIN <sql query here>`
 
-             a. Logintopostgresasthepostgresuser:
+**Projection and Selection**
 
-                  psql ­U postgres
+Run the following simple queries, then generate their explain plans.
 
-             b. Createthedatabase:
+**Projection:**
 
+  ```sql
+     SELECT customer_id, first_name, last_name FROM customer;
+  ```
 
-                  create database dvdrental;
+**Projection and Selection #1:**
 
+  ```sql
+  SELECT customer_id,
+         amount,
+         payment_date
+  FROM payment
+  WHERE amount <= 1
+    OR amount >= 8;
+  ```
 
-             c. Connecttothedatabaseusing\c
+**Projection and Selection #2:**
 
-
-                  \c dvdrental
-
-
-             d. Loadthedatausingthe\icommand.\iruns.sqlscriptsinPostgres.
-
-
-                  \i pagila-0.10.1/pagila-schema.sql
-                  \i pagila-0.10.1/pagila-insert-data.sql
-                  \i pagila-0.10.1/pagila-data.sql
-
-
-Atthispointthedataisloaded.Examinethedatabaseschemausingthe\dtcommand.
-Examinetheschemaofatableusingthe\d <table name>command
-
-                                                                                                                                 2
-Question1:Whatistheoutputof\dt?
-
-Question2:Whatistheschemaforthecustomertable?
-
-
-
-Step2.RunningQueriesandUnderstandingEXPLAINplans
-
-Wewanttounderstandnotonlywhatquerieswecanissueagainstdata,butalsohowthat
-querymapstoanexecutionplan.Foreachofthefollowingsections,runthequeriesprovided,
-andgeneratetheirexplainplansusing:EXPLAIN <sql query here>
-
-
-ProjectionandSelection
-Runthefollowingsimplequeries,thengeneratetheirexplainplans.
-
-Projection:
-
-         SELECT customer_id, first_name, last_name FROM customer;
-
-ProjectionandSelection#1:
-
-
-         SELECT customer_id,
-          amount,
-          payment_date
-
-         FROM payment
-         WHERE amount <= 1 OR amount >= 8;
-
-
-ProjectionandSelection#2:
-
-         SELECT
-
-                  customer_id,
-                  payment_id,
-                  amount
-         FROM
-                  payment
-         WHERE
-                  amount BETWEEN 5
-         AND 9;
-
-                                                                                                                                 3
-Question3:Whatsimilaritiesdoyouseeintheexplainplainsforthese3queries?
-
-MergingData:JOINsandUNIONs:
-
-Runthefollowingstatements:
-
-Union2tables:
-
-
-
-         SELECT u.customer_id, sum(u.amount) from (
-            SELECT *
-            FROM
-                  payment_p2007_01
-            UNION
-            SELECT *
-            FROM
-                  payment_p2007_02
-
-         )u
-         WHERE u.payment_date <= '2007-02-01 00:00:00'::timestamp
-without time zone
-         GROUP BY u.customer_id
-         ;
-
-PartitionaTable:
-
-         SELECT customer_id, sum(amount) from
-         payment
-         WHERE payment_date <= '2007-02-01 00:00:00'::timestamp
-without time zone
-         GROUP BY customer_id
-         ;
-
-
-Question4:WhatisthedifferencebetweentheplansforthePartitionedtableandtheunion
-query?Whydoyouthinkthisdifferenceexists?
-
-Join2tables:
-
-
-         SELECT
-                  customer.customer_id,
-                  first_name,
-
-                                                                                                                                 4
-                  last_name,
-                  email,
-                  amount,
-                  payment_date
-         FROM
-                  customer
-         INNER JOIN payment ON payment.customer_id =
-customer.customer_id;
-
-Question5:Whatjoinalgorithmisusedfortheinnerjoin?
-
-Finally,disconnectfrompostgres,using\q
-
-Submissions
-
-SubmityouranswerstothequestionsthroughISVCasatextfile,docxfile,orPDF.
-
-
-
-
-
-                                                                                                                                 5
+  ```sql
+  SELECT customer_id,
+         payment_id,
+         amount
+  FROM payment
+  WHERE amount BETWEEN 5 AND 9;
+  ```
+
+> Question 3: What similarities do you see in the explain plains for these 3 queries?
+
+**Merging Data: JOINs and UNIONs:**
+
+Run the following statements: 
+
+Union 2 tables:
+
+  ```sql
+  SELECT u.customer_id,
+         sum(u.amount)
+  FROM
+    ( SELECT *
+     FROM payment_p2007_01
+     UNION SELECT *
+     FROM payment_p2007_02) u
+  WHERE u.payment_date <= '2007-02-01 00:00:00'::TIMESTAMP WITHOUT time ZONE
+  GROUP BY u.customer_id ;
+  ```
+
+Partition a Table:
+
+  ```sql
+  SELECT customer_id,
+         sum(amount)
+  FROM payment
+  WHERE payment_date <= '2007-02-01 00:00:00'::TIMESTAMP WITHOUT time ZONE
+  GROUP BY customer_id ;
+  ```
+
+> Question 4: What is the difference between the plans for the Partitioned table and the union query? Why do you think this difference exists?
+
+Join 2 tables:
+
+  ```sql
+  SELECT customer.customer_id,
+         first_name,
+         last_name,
+         email,
+         amount,
+         payment_date
+  FROM customer
+  INNER JOIN payment ON payment.customer_id = customer.customer_id;
+  ```
+
+> Question 5: What join algorithm is used for the inner join?
+
+Finally, disconnect from postgres, using `\q`
+
+##Submissions
+
+Submit your answers to the questions through ISVC as a text file, docx file, or PDF.
