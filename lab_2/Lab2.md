@@ -1,6 +1,6 @@
 #MIDS W205
 
-|**Lab #|2|**Lab Title**|Setting Up Pseudo-Distributed Hadoop on AWS|
+|**Lab #**|2|**Lab Title**|Setting Up Pseudo-Distributed Hadoop on AWS|
 |---|---|---|---|
 |**Related Module(s)**| 1-4 | **Goal** | Understanding architecture concepts |
 |**Last Updated**| 1/8/16 | **Expected duration** | 40-60 minutes |
@@ -29,23 +29,24 @@ We're going to begin by making a persistent disk that we can attach to EC2 insta
 
 1. Launch an instance of UCB W205 Spring 2016, **make note of what zone it is placed into**
 
- a. If the instance starts in US-East-1A, that is where we need an EBS volume. If it starts in US-East-1B, then the EBS volume will need to be created there.
+  a. If the instance starts in US-East-1A, that is where we need an EBS volume. If it starts in US-East-1B, then the EBS volume will need to be created there.
 
- b. **Important:** Once you decide what zone you will create your EBS volume in, **ALWAYS** launch your EC2 instances into that zone.
+  b. **Important:** Once you decide what zone you will create your EBS volume in, **ALWAYS** launch your EC2 instances into that zone.
 
- c. Before launching your instance, you need to modify the security rules. This will allow you to access the Hadoop and Spark web interfaces.
+  c. Before launching your instance, you need to modify the security rules. This will allow you to access the Hadoop and Spark web interfaces.
 
- i. Create the following open TCP ports on 0.0.0.0/0
- 1. 22
- 2. 4040
- 3. 7180
- 4. 8080
- 5. 8088
- 6. 50070
+    i. Create the following open TCP ports on 0.0.0.0/0
+
+      1. 22
+      2. 4040
+      3. 7180
+      4. 8080
+      5. 8088
+      6. 50070
  
- ii. Before you launch your instance, check to make sure your security group looks like the following
+    ii. Before you launch your instance, check to make sure your security group looks like the following
 
- **TODO: insert image here**
+![](w205_lab2_img1)
 
  iii. Name the security group "Hadoop Cluster UCB"
  
@@ -53,7 +54,7 @@ We're going to begin by making a persistent disk that we can attach to EC2 insta
 
 2. Click through to the Elastic Block Store Page shown below
 
- **TODO: insert image here**
+ ![](w205_lab2_img2)
 
 3. Choose "Create Volume" as shown below
 
@@ -61,7 +62,7 @@ We're going to begin by making a persistent disk that we can attach to EC2 insta
  
  b. Create at volume of at least 30GB. 100GB or more is recommended for the course.
 
- **TODO: insert image here**
+ ![](w205_lab2_img3)
 
 4. Check the box next to your new volume. From the Actions menu, choose "Attach Volume" and attach the volume to your running instance.
 
