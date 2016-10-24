@@ -61,7 +61,7 @@ This is a query to find out which `REFERERURL` has been referred and for how man
 
 Pleaseseebelowfortheexactcode:
 
-![extract code](lab7_img1.png)
+![extract code](screenshots/lab7_img1.png)
 
 ### Step 2: Starting a Hive Thrift Server for Remote Hive Access
 
@@ -109,7 +109,7 @@ You can download Tableau Desktop Pro directly from Tableau’s [website](http://ww
 
 Once the product is downloaded, you can install it by double-clicking the installer package.
 
-![tableau desktop](lab7_img2.png)
+![tableau desktop](screenshots/lab7_img2.png)
 
 ####To install the ODBC driver for Hive:
 
@@ -133,89 +133,89 @@ After installing the appropriate ODBC driver, you need to configure the ODBC Sys
 
 Open the ODBC data source, go to the System DSN tab, and configure it by applying Host (Hadoop server name), Port (10000), Database(default), HiveServer Type (HiveServer2), and the authentication panel, then enter the username and password credentials (if you configured security settings on server authentication).
 
-![odbc driver](lab7_img3.png)
+![odbc driver](screenshots/lab7_img3.png)
 
 Click **Test** to check the connectivity of Tableau to the Hadoop server. If the connection is successful, a success message is displayed. Otherwise, an error message is displayed.
 
-![test results](lab7_img4.png)
+![test results](screenshots/lab7_img4.png)
 
 ###Step 5: Connect Tableau to HiveServer/HiveServer2 Using ODBC Driver
 
 Open Tableau Desktop Pro from its quick-launch option.
 
-![tableau new](lab7_img5.png)
+![tableau new](screenshots/lab7_img5.png)
 
 Next, go to Data -> New Data Source tab, and click **Cloudera Hadoop** to connect to the Hadoop server.
 
-![select cloudera hadoop](lab7_img6.png)
+![select cloudera hadoop](screenshots/lab7_img6.png)
 
 The Cloudera Hadoop connection pane opens. Enter the Hadoop server credentials to connect. To connect to the HiveServer, the default port number should be 10000, the Type should be HiveServer2, and the username needs to be provided.
 
-![cloudera hadoop server](lab7_img7.png)
+![cloudera hadoop server](screenshots/lab7_img7.png)
 
 
 ###Step 6: Build Visualizations on Weblog, Clickstream Analytics Using Tableau
 
 After the data source connection is made successfully, you can connect to the Hive table. Click **Extract** to get data locally and store Tableau in memory reduce latency because Hive is based on a batch-processing mechanism. Switch back to Tableau. Under the Data Connection pane, enter the schema name, enter **default**, and click the **Search** icon on the right side of the textbox. Next, enter the table name Web_Session_Log in the Table name textbox, click the **Search** icon on the right side of the textbox, and select and drag the table to the upper-right side of the Tableau window, as shown in the following screenshot.
 
-![](lab7_img8.png)
+![](screenshots/lab7_img8.png)
 
 Now you can extract the data locally on an in-memory Tableau dataset to avoid unnecessary server latency.
 
-![](lab7_img9.png)
+![](screenshots/lab7_img9.png)
 
 Click **Automatic update** to refresh the dataset. It should look like the following screen:
 
-![](lab7_img10.png)
+![](screenshots/lab7_img10.png)
 
 Click the **Worksheet** tab, and select **New Worksheet** to start building visualizations.
 On the new worksheet tab, on the Data pane, drag the `web_session_log.sessionid` field to the Measures pane.
 
-![](lab7_img11.png)
+![](screenshots/lab7_img11.png)
 
 Next, drag the field to the **Rows** shelf. Hover over the field to expand the drop-down menu. Change the aggregation method (under Measure) from Sum to Count (Distinct).
 
-![](lab7_img12.png)
+![](screenshots/lab7_img12.png)
 
 Drag the `web_session_log.refererurl` field to the Column shelf, then right-click the value to create a filter to visualize the top five referring URLs. Select **Filter**, and click the **Condition** tab to get URLs based on `web_session_log.sessionids` beyond a certain value (e.g., `web_session_log.sessionid` >= 3,996) to drill down to the top five referring URLs.
 
-![](lab7_img13.png)
+![](screenshots/lab7_img13.png)
 
 After you define the settings, change the chart type in the Show Me pane on the right side of the window.
 
-![](lab7_img14.png)
+![](screenshots/lab7_img14.png)
 
 Select the bubbles chart type. You will see the graph, “Top 5 Referring URLs,” as follows:
 
-![](lab7_img15.png)
+![](screenshots/lab7_img15.png)
 
 Next, create a new worksheet and name it **Top Referring URLs over last 10 years**. Drag `web_session_log.sessionid` to the Rows shelf.
 On the Data pane, right-click on the datetime field, and change its data type to Date and Time. Then, drag it to the Columns shelf. Drag the Referer URL field to the Color section of the Marks pane. In the Show Me section, select the lines chart type.
 
-![](lab7_img16.png)
+![](screenshots/lab7_img16.png)
 
 Go to a new worksheet tab, and name it **Top 10 users who used top 10 products**. On this worksheet tab, drag the `sessionid` field to the Rows shelf and the `userid` field to the Columns shelf. Filter the users based on the maximum session count. You need to filter the `userid` data based on condition of the `sessionid` value. Drag the `productID` field to the color field in the Marks pane to differentiate between products. You may select the simple stacked-bar chart type.
 
-![](lab7_img17.png)
+![](screenshots/lab7_img17.png)
 
 Once, you build such few graphs, click the **Dashboard** tab on top of the Tableau window.
 
-![](lab7_img18.png)
+![](screenshots/lab7_img18.png)
 
 Select **New Dashboard** to start implementing the **weblog-clickstream analytics** dashboard. On the new dashboard page, drag the existing implemented worksheet graphs to the right pane.
 
-![](lab7_img19.png)
+![](screenshots/lab7_img19.png)
 
 When you drag and drop the implemented graphs on the exiting worksheet, you will see the Weblog Clickstream analytics dashboard on Tableau Desktop, as shown in the following screenshot:
 
-![](lab7_img20.png)
+![](screenshots/lab7_img20.png)
 
 You can also publish the workbook on Tableau Server if you have those credentials. Always save the workbook on your local drive using the File -> Export as Packaged workbook option. You can also print the entire workbook or selected worksheets in PDF format as required.
 
-![](lab7_img21.png)
+![](screenshots/lab7_img21.png)
 
 The Tableau **weblog-hive-clickstream analytics workbook** is printed in PDF format.
 
-![](lab7_img22.png)
+![](screenshots/lab7_img22.png)
 
 Task: Submit the printed PDF **weblog-hive-clickstream analytics** workbook.
